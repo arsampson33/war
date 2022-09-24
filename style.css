@@ -1,0 +1,153 @@
+*,::after,::before{
+    box-sizing: border-box;
+}
+
+.allCards{ 
+    margin:0;
+    display:grid;
+    grid-template-columns: repeat(3, 7rem);
+    grid-template-rows: 10rem 7rem 10rem;
+    /* grid-template-areas: 
+    "computerdeck computercurrent war1"
+    "textt textt textt"
+    "playerdeck computercurrent war2"
+    ; */
+    gap: .5rem;
+    justify-content: center;
+    padding-top: 1rem;
+}
+
+
+
+.deck{
+    height:100%;
+    width: 100%;
+    border:1px solid black;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    border-radius: .5rem;
+    color: white;
+    
+}
+
+.text{
+    grid-column: span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 20px;
+    grid-row: 2;
+    text-align: center;
+}
+
+.computer-deck{
+    background-color: green;
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.player-deck{
+    background-color: blue;
+    grid-row: 3;
+    grid-column: 1;
+}
+
+.player-current-card{
+    grid-row: 3;
+    grid-column: 2;
+}
+.computer-current-card{
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.card{
+    height:100%;
+    width: 100%;
+    position: relative;
+    border:1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: .5rem;
+    font-size: 4rem;
+    perspective: 1000px;
+} 
+
+.card::before{
+    top: .5rem;
+    left: .5rem;
+}
+.card::after{
+    bottom: .5rem;
+    right: .5rem;
+    transform: rotate(180deg);
+}
+.card::before,
+.card::after{
+    position: absolute;
+    content: attr(data-value);
+    font-size: 1rem;
+
+}
+
+.card.red{
+    color:red;
+}
+.card.black{
+    color:black;
+}
+/* .card,.card.fly-in{
+    transform: translateY(100px) translateX(-40px);
+} */
+
+.buttons{
+    position:relative;
+    left:39rem;  
+    padding-top: 1rem;
+}
+
+.compwarcard1{
+    grid-row: 1;
+    grid-column: 3;
+    transform: translateX(-50px);
+}
+.compwarcard2{
+    grid-row: 1;
+    grid-column: 3;
+    transform: translateX(-10px);
+}
+.compwarcard3{
+    grid-row: 1;
+    grid-column: 3;
+    transform: translateX(40px);
+}
+.compwarcard4{
+    grid-row: 1;
+    grid-column: 3;
+    transform: translateX(100px);
+}
+.playwarcard1{
+    grid-row: 3;
+    grid-column: 3;
+    transform: translateX(-50px);
+}
+.playwarcard2{
+    grid-row: 3;
+    grid-column: 3;
+    transform: translateX(-10px);
+}
+.playwarcard3{
+    grid-row: 3;
+    grid-column: 3;
+    transform: translateX(40px);
+}
+.playwarcard4{
+    grid-row: 3;
+    grid-column: 3;
+    transform: translateX(100px);
+}

@@ -1,20 +1,49 @@
-const names = [
-  "two",
-  "three",
-  "four",
-  "five",
-  "six",
-  "seven",
-  "eight",
-  "nine",
-  "ten",
-  "jack",
-  "queen",
-  "king",
-  "Ace",
-];
 const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 const suits = ["♥", "♦", "♠", "♣"];
+
+const textDiv = document.querySelector(".text");
+const computerDeckCount = document.querySelector(".computer-deck");
+const playerDeckCount = document.querySelector(".player-deck");
+const computerCurrentCard = document.querySelector(".computer-current-card");
+const playerCurrentCard = document.querySelector(".player-current-card");
+const computerCurrentWarCard = document.querySelector(
+  ".computer-current-warcard"
+);
+const playerCurrentWarCard = document.querySelector(".player-current-warcard");
+const compwarcard1 = document.querySelector(".compwarcard1");
+const compwarcard2 = document.querySelector(".compwarcard2");
+const compwarcard3 = document.querySelector(".compwarcard3");
+const compwarcard4 = document.querySelector(".compwarcard4");
+const playwarcard1 = document.querySelector(".playwarcard1");
+const playwarcard2 = document.querySelector(".playwarcard2");
+const playwarcard3 = document.querySelector(".playwarcard3");
+const playwarcard4 = document.querySelector(".playwarcard4");
+
+class Card {
+  constructor(suit, value) {
+    this.suit = suit;
+    this.value = value;
+  }
+  get color() {
+    return this.suit === "♠" || this.suit === "♣" ? "black" : "red";
+  }
+  grabHTML() {
+    const cardDiv = document.createElement("div");
+    cardDiv.innerText = this.suit;
+    cardDiv.classList.add("card", this.color);
+    cardDiv.dataset.value = `${this.value} ${this.suit}`;
+
+    return cardDiv;
+  }
+}
+
+const newDeck = () => {
+  return suits.flatMap((suits) => {
+    return values.map((value) => {
+      return new Card(suits, value);
+    });
+  });
+};
 
 class Deck {
   constructor(cards = newDeck()) {
@@ -26,249 +55,227 @@ class Deck {
       const newIndex = Math.floor(Math.random() * (i + 1));
       const oldValue = this.cards[newIndex];
       this.cards[newIndex] = this.cards[i];
-      this.cards[i] = oldValue
+      this.cards[i] = oldValue;
     }
   }
 }
 
-class Card {
-  constructor(suit, value) {
-    this.suit = suit;
-    // this.name = name;
-    this.value = value
-  }
-}
-
-const newDeck = () => {
-    return suits.flatMap((suits) => {
-      return values.map((value) => {
-          return new Card(suits, value);
-       
-        });
-      });
-  };
-
 const deck = new Deck();
-deck.shuffle();
-console.dir(deck.cards)
+console.log(deck.cards);
+console.dir(deck.cards);
 
-
-
-class Players{
-  constructor(hand, wonPile, warPile, cardsLeft){
-    this.hand = hand 
-    this.wonPile = wonPile
-    this.warPile = warPile
-    this.cardsLeft = cardsLeft
+class Players {
+  constructor(hand, warPile, cardsLeft) {
+    this.hand = hand;
+    this.warPile = warPile;
+    this.cardsLeft = cardsLeft;
   }
 
-resetGame(player, hand){
-    player.hand = hand
-    player.wonPile = []
-    player.warPile = []
-    player.cardsLeft = 26
+  resetGame(player, hand) {
+    player.hand = hand;
+    player.warPile = [];
+    player.cardsLeft = 26;
   }
-  getCurrentCard(){
-   this.currentCard = this.hand.pop()
+  getCurrentCard() {
+    this.currentCard = this.hand.pop();
   }
 }
-const computer = new Players
-const player = new Players
+const computer = new Players();
+const player = new Players();
 
-
+function hide() {
+  compwarcard1.style.display = "none";
+  compwarcard2.style.display = "none";
+  compwarcard3.style.display = "none";
+  compwarcard4.style.display = "none";
+  playwarcard1.style.display = "none";
+  playwarcard2.style.display = "none";
+  playwarcard3.style.display = "none";
+  playwarcard4.style.display = "none";
+}
+function show(){
+  compwarcard1.style.display = 'grid';
+  compwarcard2.style.display = 'grid';
+  compwarcard3.style.display = 'grid';
+  compwarcard4.style.display = 'grid';
+  playwarcard1.style.display = 'grid';
+  playwarcard2.style.display = 'grid';
+  playwarcard3.style.display = 'grid';
+  playwarcard4.style.display = 'grid';
+}
 const play = () => {
-  player.resetGame(player, deck.cards.slice(0,26))
-  computer.resetGame(computer, deck.cards.slice(26))
-}
-play()
-  console.log(player)
-  console.log(computer)
-
+  deck.shuffle();
+  player.resetGame(player, deck.cards.slice(0, 26));
+  computer.resetGame(computer, deck.cards.slice(26));
+  computerDeckCount.innerText = `${computer.hand.length}`;
+  playerDeckCount.innerText = `${player.hand.length}`;
+  hide();
+};
+const reset = () => {
+  computerCurrentCard.style.display = "none";
+  playerCurrentCard.style.display = "none";
+  hide()
+  textDiv.innerHTML = "";
+  deck.shuffle();
+  player.resetGame(player, deck.cards.slice(0, 26));
+  computer.resetGame(computer, deck.cards.slice(26));
+  computerDeckCount.innerText = `${computer.hand.length}`;
+  playerDeckCount.innerText = `${player.hand.length}`;
+};
+play();
+console.log(player);
+console.log(computer);
 
 const gameLogic = () => {
-  if (player.hand.length === 0){
-    console.log('Computer Won')
-  } else if (computer.hand === 0) {
-    console.log('Player Won')
-  
-    // if(player.hand.length === 0){
-    //   player.hand.concat(player.wonPile)
-      
-    // }
-    // if(computer.hand.length === 0){
-    //   computer.hand.concat(computer.wonPile)
-    // }
+  if (
+    computerCurrentCard.style.display === "none" ||
+    playerCurrentCard.style.display === "none"
+  ) {
+    computerCurrentCard.style.display = "block";
+    playerCurrentCard.style.display = "block";
   }
-  player.getCurrentCard()
-  computer.getCurrentCard() 
-  if (player.currentCard.value > computer.currentCard.value){
-    console.log('Player Won This Round!!')
-    player.cardsLeft++
-    computer.cardsLeft--
+  if (player.hand.length === 0) {
+    alert("Computer Won");
+  } else if (computer.hand.length === 0) {
+    alert("Player Won");
+  }
+
+  player.getCurrentCard();
+  computer.getCurrentCard();
+  if (player.currentCard.value > computer.currentCard.value) {
+    console.log("Player Won This Round!!");
+    textDiv.innerHTML = "You won this Round!";
+    player.cardsLeft++;
+    computer.cardsLeft--;
     player.hand.unshift(computer.currentCard);
-			// temp = player.hand.pop();
-			// player.hand.unshift(temp);
-      // player.hand.unshift(player.hand.splice(0, 1)[0])
-      player.hand.unshift(player.currentCard)
-      console.log(player.hand)
-      console.log(computer.hand)
-      
-    // player.wonPile.push(computer.currentCard)
-    // player.wonPile.push(player.currentCard)
-    // computer.hand.pop()
+    player.hand.unshift(player.currentCard);
+    computerDeckCount.innerText = `${computer.hand.length}`;
+    playerDeckCount.innerText = `${player.hand.length}`;
+    console.log(player.hand);
+    console.log(computer.hand);
+    nextRound();
   } else if (player.currentCard.value < computer.currentCard.value) {
-    console.log('Computer Won This Round!!')
-    computer.cardsLeft++
-    player.cardsLeft--
+    console.log("Computer Won This Round!!");
+    textDiv.innerHTML = "Computer Won This Round";
+    computer.cardsLeft++;
+    player.cardsLeft--;
     computer.hand.unshift(player.currentCard);
-    // temp = computer.hand.pop();
-    // computer.hand.unshift(temp);
-    // player.hand.pop();
-    // computer.hand.push(computer.hand.splice(0, 1)[0])
-    computer.hand.unshift(computer.currentCard)
-    console.log(player.hand)
-    console.log(computer.hand)
-
-    // computer.wonPile.push(computer.currentCard)
-    // computer.wonPile.push(player.currentCard)
-    // player.hand.pop()
-  } else{
-    console.log('WARRRRRRR')
-    player.warPile.push(player.currentCard)
-    computer.warPile.push(computer.currentCard)
-    war()
-    console.log(player.hand)
-    console.log(computer.hand)
+    computer.hand.unshift(computer.currentCard);
+    computerDeckCount.innerText = `${computer.hand.length}`;
+    playerDeckCount.innerText = `${player.hand.length}`;
+    console.log(player.hand);
+    console.log(computer.hand);
+    nextRound();
+  } else {
+    nextRound();
+    player.warPile.push(player.currentCard);
+    computer.warPile.push(computer.currentCard);
+    war();
+    computerDeckCount.innerText = `${computer.hand.length}`;
+    playerDeckCount.innerText = `${player.hand.length}`;
+    console.log(player.hand);
+    console.log(computer.hand);
   }
 
-  console.log(`PlayerCard:${player.currentCard.value}${player.currentCard.suit} Point: ${player.cardsLeft} ComputerCard: ${computer.currentCard.value}${computer.currentCard.suit} Point: ${computer.cardsLeft}`)
- 
-}
+  console.log(
+    `PlayerCard:${player.currentCard.value}${player.currentCard.suit} Point: ${player.cardsLeft} ComputerCard: ${computer.currentCard.value}${computer.currentCard.suit} Point: ${computer.cardsLeft}`
+  );
+};
 
 const war = () => {
-  for(let i = 0;i <= 3; i++){
-    player.getCurrentCard()
-    player.warPile.push(player.currentCard)
-  console.log(player.warPile)
-    computer.getCurrentCard()
-    computer.warPile.push(computer.currentCard)
-  console.log(computer.warPile)
-if (player.warPile.length === 5 && computer.warPile.length === 5){
-  if(player.warPile[4].value > computer.warPile[4].value){
-    console.log('player won war')
-    player.hand.push(...computer.warPile)
-    player.hand.push(...player.warPile)
-  } else if (player.warPile[4].value < computer.warPile[4].value) {
-    console.log('computer won war')
-    computer.hand.push(...computer.warPile)
-    computer.hand.push(...player.warPile)
-  }else{
-    console.log('again')
+  for (let i = 0; i <= 3; i++) {
+    player.getCurrentCard();
+    player.warPile.push(player.currentCard);
+    console.log(player.warPile);
+    computer.getCurrentCard();
+    computer.warPile.push(computer.currentCard);
+    console.log(computer.warPile);
+    show()
+
+    if (player.warPile.length === 5 && computer.warPile.length === 5) {
+      if (player.warPile[4].value > computer.warPile[4].value) {
+     textDiv.innerHTML = "WARRRRRRR: Player Wins";
+        console.log("player won war");
+        player.hand.push(...computer.warPile);
+        player.hand.push(...player.warPile);
+        player.warPile = [];
+        computer.warPile = [];
+        computerCurrentWarCard.appendChild(computer.currentCard.grabHTML());
+        playerCurrentWarCard.appendChild(player.currentCard.grabHTML());
+      } else if (player.warPile[4].value < computer.currentCard.value) {
+        console.log("computer won war");
+        textDiv.innerHTML = "WARRRRRRR: Computer Wins";
+        computer.hand.push(...computer.warPile);
+        computer.hand.push(...player.warPile);
+        computer.warPile = [];
+        player.warPile = [];
+        computerCurrentWarCard.appendChild(computer.currentCard.grabHTML());
+        playerCurrentWarCard.appendChild(player.currentCard.grabHTML());
+      } else {
+        console.log("again");
+        warAgain();
+      }
+    }
   }
-}
-} 
+};
+const warAgain = () => {
+  for (let i = 0; i <= 3; i++) {
+    player.getCurrentCard();
+    player.warPile.push(player.currentCard);
+    console.log(player.warPile);
+    computer.getCurrentCard();
+    computer.warPile.push(computer.currentCard);
+    console.log(computer.warPile);
+    if (player.warPile.length === 9 && computer.warPile.length === 9) {
+      if (player.warPile[8].value > computer.warPile[8].value) {
+        console.log("player won war");
+        player.hand.push(...computer.warPile);
+        player.hand.push(...player.warPile);
+        player.warPile = [];
+        computer.warPile = [];
+      } else if (player.warPile[8].value < computer.warPile[8].value) {
+        console.log("computer won war");
+        computer.hand.push(...computer.warPile);
+        computer.hand.push(...player.warPile);
+        computer.warPile = [];
+        player.warPile = [];
+      } else {
+        console.log("damn");
+      }
+    }
   }
+};
+const flyIn = () => {
+  computerCurrentCard.classList.add("fly-in");
+  clearInterval(id);
+};
+const id = setInterval(flyIn, 5);
+const setChild = () => {
+  computerCurrentCard.appendChild(computer.currentCard.grabHTML());
+  playerCurrentCard.appendChild(player.currentCard.grabHTML());
+};
 
+const nextRound = () => {
+  computerCurrentCard.innerHTML = "";
+  playerCurrentCard.innerHTML = "";
+  computerCurrentWarCard.innerHTML = "";
+  playerCurrentWarCard.innerHTML = "";
+  hide()
+  computerCurrentCard.appendChild(computer.currentCard.grabHTML());
+  playerCurrentCard.appendChild(player.currentCard.grabHTML());
+};
 
-//   if(player.warPile[i].value > computer.warPile[i].value){
-//     player.hand.unshift(computer.warPile)
-//   } else if (player.warPile[i].value < computer.warPile[i].value) {
-//     computer.hand.unshift(player.warPile)  
-//   }
-//   else{
-//     console.log('again')
-//   }
-// } 
-
-
-
-
-
- 
-//   let computersHand = ;
-//   let playersCurrentCard = playersHand[playersHand.length-1]
-//   let computersCurrentCard = computersHand[computersHand.length-1]
-// }
-  // const checkWinner = (player, computer) => {
-  //   const playerValue = values.indexOf(player.value)
-  //   const computerValue = values.indexOf(computer.value)
-  //   if (playersHand[i].value > computersHand[i].value) {
-  //     console.log('Player Wins')
-      // playersPoints++;
-      // computerPoints--;
-      // playersHand.unshift(computersCurrentCard);
-      // temp = playersHand.pop();
-			// playersHand.unshift(temp);
-			// computersHand.pop()
-      // playersHand.push(playersHand.splice(0, 1)[0])
-      // playersHand.push(playersHand.splice(0, 1)[0])
-      // i++
-     
-
-//       // playersPoints++;
-//       // computerPoints--;
-//       // console.log("Player Wins");
-//       // console.log(`PlayerCard:${playersCurrentCard.value}${playersCurrentCard.suit} Point: ${playersPoints} ComputerCard: ${computersCurrentCard.value}${computersCurrentCard.suit} Point: ${computerPoints}`);
-//       // playersHand.push(computersHand)
-//       // playersHand.push(playersCurrentCard.shift())
-//       // computersHand.slice(i,1)
-  
-
-      
-    
-
-      
-
-//     } else if (playersHand[i].value < computersHand[i].value) {
-//       console.log('Computer Wins')
-//       playersPoints++;
-//       computerPoints--;
-//       computersHand.unshift(playersCurrentCard[i]);
-// 			temp = computersHand.pop();
-// 			computersHand.unshift(temp);
-// 			playersHand.pop();
-//       computersHand.push(computersHand.splice(0, 1)[0])
-//       computersHand.push(computersHand.splice(0, 1)[0])
-//       i++
-     
-      
-      
-      
-//       // computerPoints++;
-//       // playersPoints--;
-//       // console.log("Computer wins");
-//       // console.log(`PlayerCard:${playersCurrentCard.value}${playersCurrentCard.suit} Point: ${playersPoints} ComputerCard: ${computersCurrentCard.value}${computersCurrentCard.suit} Point: ${computerPoints}`);
-//       // computersHand.push(playersHand)
-//       // computersHand.push(computersHand.shift())
-//       // playersHand.slice(i,1)
-  
- 
-      
-
-//     } else {
-//       console.log("Needs work")
-//       i++
-//     }
-//       // console.log(`PlayerCard:${playersCurrentCard.value}${playersCurrentCard.suit} Point: ${playersPoints} ComputerCard: ${computersCurrentCard.value}${computersCurrentCard.suit} Point: ${computerPoints}`);
-//       // playersHand.push(playersHand)
-//       // computersHand.push(computersHand)
-//       console.log(computersCurrentCard)
-//       console.log(computersHand)
-//       console.log(playersCurrentCard)
-//       console.log(playersHand)
-//       console.log(playersPoints)
-//       console.log(computerPoints)
-//       console.log(computersHand.length)
-//       console.log(playersHand.length)
-      
-//     }
-//   }
-   
-
-
-
-
+// const placeholder = () => {
+//   const compwarcard1 = document.createElement('div')
+//   compwarcard1.classList.add('compwarcard1')
+//   compwarcard1.classList.add('computer-deck')
+//   compwarcard1.classList.add('deck')
 
 const flipBtn = document.querySelector("#flip");
-
 flipBtn.addEventListener("click", gameLogic);
+// flipBtn.addEventListener("click", setChild);
+// flipBtn.addEventListener("click", nextRound);
+// flipBtn.addEventListener("click", flyin);
+
+const resetBtn = document.querySelector("#reset");
+resetBtn.addEventListener("click", reset);

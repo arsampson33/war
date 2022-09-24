@@ -221,3 +221,16 @@ i++
 const flipBtn = document.querySelector("#flip");
 
 flipBtn.addEventListener("click", play);
+switch(values){
+  case 'Jack':
+    values = 11
+    break
+  case 'Queen':
+    values = 12
+    break
+  case 'King':
+    values = 13
+    break
+  case 'Ace':
+    values= 14
+    break
