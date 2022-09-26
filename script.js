@@ -30,7 +30,7 @@ class Card {
   grabHTML() {
     const cardDiv = document.createElement("div");
     cardDiv.innerText = this.suit;
-    cardDiv.classList.add("card", this.color);
+    cardDiv.classList.add("card", this.color, 'slide');
     cardDiv.dataset.value = `${this.value} ${this.suit}`;
 
     return cardDiv;
@@ -102,13 +102,21 @@ function show(){
   playwarcard2.style.display = 'grid';
   playwarcard3.style.display = 'grid';
   playwarcard4.style.display = 'grid';
+compwarcard1.classList.add("slide")
+compwarcard2.classList.add("slide")
+compwarcard3.classList.add("slide")
+compwarcard4.classList.add("slide")
+playwarcard1.classList.add("slide")
+playwarcard2.classList.add("slide")
+playwarcard3.classList.add("slide")
+playwarcard4.classList.add("slide")
 }
 const play = () => {
   deck.shuffle();
   player.resetGame(player, deck.cards.slice(0, 26));
   computer.resetGame(computer, deck.cards.slice(26));
-  computerDeckCount.innerText = `${computer.hand.length}`;
-  playerDeckCount.innerText = `${player.hand.length}`;
+  computerDeckCount.innerText = `CPU ${computer.hand.length}`;
+  playerDeckCount.innerText = `YOU ${player.hand.length}`;
   hide();
 };
 const reset = () => {
@@ -119,14 +127,17 @@ const reset = () => {
   deck.shuffle();
   player.resetGame(player, deck.cards.slice(0, 26));
   computer.resetGame(computer, deck.cards.slice(26));
-  computerDeckCount.innerText = `${computer.hand.length}`;
-  playerDeckCount.innerText = `${player.hand.length}`;
+  computerDeckCount.innerText = `CPU ${computer.hand.length}`;
+  playerDeckCount.innerText = `YOU ${player.hand.length}`;
 };
 play();
 console.log(player);
 console.log(computer);
 
+let count = 0
 const gameLogic = () => {
+  count++
+  console.log(count)
   if (
     computerCurrentCard.style.display === "none" ||
     playerCurrentCard.style.display === "none"
@@ -149,8 +160,8 @@ const gameLogic = () => {
     computer.cardsLeft--;
     player.hand.unshift(computer.currentCard);
     player.hand.unshift(player.currentCard);
-    computerDeckCount.innerText = `${computer.hand.length}`;
-    playerDeckCount.innerText = `${player.hand.length}`;
+    computerDeckCount.innerText = `CPU ${computer.hand.length}`;
+    playerDeckCount.innerText = `YOU ${player.hand.length}`;
     console.log(player.hand);
     console.log(computer.hand);
     nextRound();
@@ -161,8 +172,8 @@ const gameLogic = () => {
     player.cardsLeft--;
     computer.hand.unshift(player.currentCard);
     computer.hand.unshift(computer.currentCard);
-    computerDeckCount.innerText = `${computer.hand.length}`;
-    playerDeckCount.innerText = `${player.hand.length}`;
+    computerDeckCount.innerText = `CPU ${computer.hand.length}`;
+    playerDeckCount.innerText = `YOU ${player.hand.length}`;
     console.log(player.hand);
     console.log(computer.hand);
     nextRound();
@@ -171,8 +182,8 @@ const gameLogic = () => {
     player.warPile.push(player.currentCard);
     computer.warPile.push(computer.currentCard);
     war();
-    computerDeckCount.innerText = `${computer.hand.length}`;
-    playerDeckCount.innerText = `${player.hand.length}`;
+    computerDeckCount.innerText = `CPU ${computer.hand.length}`;
+    playerDeckCount.innerText = `YOU ${player.hand.length}`;
     console.log(player.hand);
     console.log(computer.hand);
   }
@@ -244,12 +255,14 @@ const warAgain = () => {
       }
     }
   }
+ 
 };
-const flyIn = () => {
-  computerCurrentCard.classList.add("fly-in");
-  clearInterval(id);
+const slide = () => {
+  computerCurrentCard.classList.add("slide");
 };
-const id = setInterval(flyIn, 5);
+const reslide = () => {
+  computerCurrentCard.classList.remove("slide");
+};
 const setChild = () => {
   computerCurrentCard.appendChild(computer.currentCard.grabHTML());
   playerCurrentCard.appendChild(player.currentCard.grabHTML());
@@ -275,7 +288,7 @@ const flipBtn = document.querySelector("#flip");
 flipBtn.addEventListener("click", gameLogic);
 // flipBtn.addEventListener("click", setChild);
 // flipBtn.addEventListener("click", nextRound);
-// flipBtn.addEventListener("click", flyin);
 
+// flipBtn.addEventListener("click", slide);;
 const resetBtn = document.querySelector("#reset");
 resetBtn.addEventListener("click", reset);

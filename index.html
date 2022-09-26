@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="./script.js" defer></script>
     <title>Document</title>
 </head>
 <body>
-<div class="allCards">
+<div class="welcome"> <h1>Welcome to the game of War.</h1> The objective of this game is to flip over the highest card. Whoever has the highest card adds both cards to their stack. In case of a time you must now enter WARRR! In War, both players will flip stack 4 more cards and whoever has the highest 5th card will win all 10 cards! The player with all 52 cards wins the game!</div>
+<div class="allCards ">
+    <div class="player-deck deck back "></div>
+    <div class="player-current-card card-current">
+
+    </div>
+    <div class="playwarcard1 player-deck deck"></div>
+    <div class="playwarcard2 player-deck deck"></div>
+    <div class="playwarcard3 player-deck deck"></div>
+    <div class="playwarcard4 player-current-warcard card-current"></div>
+    <div class="text"></div>
     <div class="computer-deck deck"></div>
     <div class="computer-current-card card-current">
     </div>
@@ -17,16 +30,6 @@
     <div class="compwarcard2 computer-deck deck"></div>
     <div class="compwarcard3 computer-deck deck"></div>
     <div class="compwarcard4 computer-current-warcard card-current"></div>
-   
-    <div class="text"></div>
-
-    <div class="player-deck deck"></div>
-    <div class="player-current-card card-current">
-    </div>
-    <div class="playwarcard1 player-deck deck"></div>
-    <div class="playwarcard2 player-deck deck"></div>
-    <div class="playwarcard3 player-deck deck"></div>
-    <div class="playwarcard4 player-current-warcard card-current"></div>
 </div>
 <div class="buttons">
     <button id="flip">FLIP</button>
