@@ -15,6 +15,7 @@ The objective of this game is to flip over the highest card. Whoever has the hig
 * Fixing Github Pages CSS
 * Different Variations of War: Such as basketball, reaction contest, etc.
 * Making overall CSS more appealing
+* Take user names so that it can be two player or vs computer
 
 ## Attribution
 * Background Picture: <a href="https://www.vecteezy.com/free-vector/world-war">World War Vectors by Vecteezy</a> 
