@@ -30,11 +30,6 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 7rem);
   grid-template-rows: 10rem 7rem 10rem;
-  /* grid-template-areas: 
-    "computerdeck computercurrent war1"
-    "textt textt textt"
-    "playerdeck computercurrent war2"
-    ; */
   gap: 0.5rem;
   justify-content: center;
   padding-top: 1rem;
@@ -46,7 +41,13 @@ body {
   transition: 1s;
 }
 h1{
-    font-family: 'scortch'
+    font-family: 'scortch';
+    color: #AF4B3B
+}
+p{
+    font-family: 'helvetica';
+    border: 1px solid black; 
+    margin-left: 8px;  
 }
 .deck {
   height: 100%;
@@ -58,8 +59,11 @@ h1{
   font-size: 3rem;
   border-radius: 0.5rem;
   color: white;
+ 
 }
-
+.playD,.compD{
+    box-shadow:-5px 10px #AF4B3B;
+}
 .text {
   grid-column: span 2;
   display: flex;
@@ -69,21 +73,26 @@ h1{
   font-size: 20px;
   grid-row: 2;
   text-align: center;
+  font-family: 'progress';
 }
 
 .player-deck {
-  background: url(img/2B.svg);
+  background: url(img/1B.svg);
   background-size: 100% 100%;
   grid-row: 1;
   grid-column: 1;
   text-align: center;
+  font-size: 40px; 
+  font-family: 'scortch';
 }
 .computer-deck {
-  background: url(img/2B.svg);
+  background: url(img/1B.svg);
   background-size: 100% 100%;
   grid-row: 3;
   grid-column: 1;
   text-align: center;
+  font-size: 40px; 
+  font-family: 'scortch';
 }
 
 .computer-current-card {
@@ -97,7 +106,7 @@ h1{
 }
 .slide{
     animation-duration: .2s;
-animation-name: slidein;
+    animation-name: slidein;
       }
       
       @keyframes slidein {
@@ -148,16 +157,24 @@ animation-name: slidein;
 .card.black {
   color: black;
 }
-/* .card,.card.fly-in{
-    transform: translateY(100px) translateX(-40px);
-} */
 
 .buttons {
   position: relative;
-  left: 43%;
+  left: 40%;
   padding-top: 1rem;
+  font-family: 'scortch';
 }
+#flip{
+    font-family: 'scortch';
+    font-size: 25px;
+    padding-top: 10px;
 
+}
+#reset{
+    font-family: 'scortch';
+    font-size: 25px;
+    padding-top: 10px;
+}
 .playwarcard1 {
   grid-row: 1;
   grid-column: 3;
